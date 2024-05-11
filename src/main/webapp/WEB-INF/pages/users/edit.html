@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>User</title>
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
+</head>
+<body>
+
+<form th:method="POST" th:action="@{/users/save}" th:object="${user}">
+    <input type="hidden" name="id" th:value="*{id}">
+
+    <label for="firstName">Имя</label>
+    <input type="text" th:field="*{firstName}" id="firstName"/>
+
+    <label for="lastName">Фамилия</label>
+    <input type="text" th:field="*{lastName}" id="lastName"/>
+
+    <label for="age">Возраст</label>
+    <input type="text" th:field="*{age}" id="age"/>
+
+    <label for="email">Email</label>
+    <input type="text" th:field="*{email}" id="email"/>
+
+    <input type="submit" value="Сохранить"/>
+</form>
+
+</body>
+</html>
