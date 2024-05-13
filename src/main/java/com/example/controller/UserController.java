@@ -2,6 +2,7 @@ package com.example.controller;
 
 import com.example.dao.UserDao;
 import com.example.model.User;
+import com.example.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,16 +12,16 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/users")
 public class UserController {
 
-    private final UserDao userDao;
+    private final UserService userService;
 
     @Autowired
-    public UserController(UserDao userDao) {
-        this.userDao = userDao;
+    public UserController(UserService userService) {
+        this.userService = userService;
     }
 
     @GetMapping()
     public String index(Model model) {
-        model.addAttribute("users", userDao.getAll());
+        model.addAttribute("users", userService.getAll());
         return "users/index";
     }
 
@@ -28,7 +29,7 @@ public class UserController {
     public String edit(Model model, @RequestParam(name = "id", required = false) Long id) {
         User user;
         if (id != null) {
-            user = userDao.getById(id);
+            user = userService.getById(id);
         } else {
             user = new User();
             user.setId(id);
@@ -41,16 +42,16 @@ public class UserController {
     @PostMapping("/save")
     public String save(@ModelAttribute("user") User user) {
         if (user.getId() == null) {
-            userDao.save(user);
+            userService.create(user);
         } else {
-            userDao.update(user);
+            userService.update(user);
         }
         return "redirect:/users";
     }
 
     @PostMapping("/delete")
     public String delete(@ModelAttribute("user") User user) {
-        userDao.delete(user);
+        userService.delete(user);
         return "redirect:/users";
     }
 }

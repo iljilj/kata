@@ -5,11 +5,9 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.transaction.Transactional;
 import java.util.List;
 
 @Repository
-@Transactional
 public class UserDaoImp implements UserDao{
 
     @PersistenceContext
@@ -27,8 +25,9 @@ public class UserDaoImp implements UserDao{
 
     @Override
     public void delete(User user) {
-        User managedUser = entityManager.merge(user);
-        entityManager.remove(managedUser);
+//        User managedUser = entityManager.merge(user);
+//        entityManager.remove(managedUser);
+        entityManager.remove(entityManager.contains(user) ? user : entityManager.merge(user));
     }
 
     @Override
